@@ -8,10 +8,10 @@ public class CodeFile {
 
 	private static Scanner x;
 	private static String wholeFile = "";
-	
 	private static String timeStamp;
 	private static String tag;
 	private static String fileText;
+	private static int fileCounter = 0;
 
 	public CodeFile() {
 		
@@ -50,12 +50,13 @@ public class CodeFile {
 	 * Postcondition: return file line by line
 	 * Throws: IOException
 	 **/
-	public static void displayFile() throws IOException{
+	public static String displayFile() throws IOException{
 		while (x.hasNext()) {
 			String line = x.nextLine();
-			System.out.println(line);
+			//System.out.println(line);
 			wholeFile += line + "\n";
 		}
+		return wholeFile;
 	}
 	
 	/**
