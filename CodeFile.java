@@ -1,20 +1,36 @@
 package edu.century.finalProject;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.util.Scanner;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.FileWriter;
 
 public class CodeFile {
 
 	private static Scanner x;
-	private static String wholeFile = "";
-	private static String timeStamp;
-	private static String tag;
-	private static String fileText;
-	private static int fileCounter = 0;
+	private String wholeFile = "";
+	private String fileName;
 
 	public CodeFile() {
-		
+	}
+	
+	public static void fileNotepad(String fileLocationName) throws IOException{
+		if (Desktop.isDesktopSupported()) {
+		    File file = new File(fileLocationName);
+			Desktop.getDesktop().edit(file);
+		} else {
+		    System.out.println("FAILURE: Please enter valid file path and name");
+		}
+	}
+	
+	public static void exportFile(String fileText, String locationName) throws IOException{
+		String fileLocationName = locationName;
+		FileWriter fwriter = new FileWriter(fileLocationName, true);
+		PrintWriter outputfile = new PrintWriter(fwriter);
+		outputfile.print(fileText);
+		outputfile.close();
 	}
 	
 	/**
@@ -24,7 +40,7 @@ public class CodeFile {
 	 * Postcondition: return the wholeFile
 	 * Throws: n/a
 	 **/
-	public static String getWholeFile() {
+	public String getWholeFile() {
 		return wholeFile;
 	}
 
@@ -35,12 +51,17 @@ public class CodeFile {
 	 * Postcondition: open file
 	 * Throws: FileNotFoundException
 	 **/
-	public static void openFile(String fileName) {
+	public String openFile(String fileName) {
+		Scanner scanner = null;
+		String fileText = "";
 		try {
-			x = new Scanner(new File(fileName));
+			scanner = new Scanner(new File(fileName));
+			fileText = setWholeFile(scanner);
 		} catch (Exception FileNotFoundException) {
-			System.out.println("File does not exist " + fileName);
+			System.out.println("FAILURE: File does not exist " + fileName);
 		}
+		wholeFile = fileText; 
+		return fileText;
 	}
 
 	/**
@@ -50,13 +71,15 @@ public class CodeFile {
 	 * Postcondition: return file line by line
 	 * Throws: IOException
 	 **/
-	public static String displayFile() throws IOException{
-		while (x.hasNext()) {
-			String line = x.nextLine();
-			//System.out.println(line);
+	public String setWholeFile(Scanner scanner) throws IOException{
+		String whole = "";
+		wholeFile = "";
+		while (scanner.hasNext()) {
+			String line = scanner.nextLine();
 			wholeFile += line + "\n";
+			whole += line + "\n";
 		}
-		return wholeFile;
+		return whole;
 	}
 	
 	/**
@@ -88,65 +111,25 @@ public class CodeFile {
 			if (size != 0) {
 			}
 			else {
-				System.out.println("This file is empty " + fileName);
+				System.out.println("FAILURE: This file is empty " + fileName);
 			}
 		}
-
 	}
 
 	/**
-	 * Description: Getter for the timeStamp 
+	 * Description: Getter for the fileName
 	 * Parameters: none
 	 * Precondition: n/a
-	 * Postcondition: return the timeStamp
+	 * Postcondition: return the fileName
 	 * Throws: n/a
 	 **/
-	public static String getTimeStamp() {
-		return timeStamp;
+	public String getFileName() {
+		return fileName;
 	}
 
-	public static void setTimeStamp(String timeStamp) {
-		CodeFile.timeStamp = timeStamp;
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
-
-	/**
-	 * Description: Getter for the tag
-	 * Parameters: none
-	 * Precondition: n/a
-	 * Postcondition: return the tag
-	 * Throws: n/a
-	 **/
-	public static String getTag() {
-		return tag;
-	}
-
-	public static void setTag(String tag) {
-		CodeFile.tag = tag;
-	}
-
-	/**
-	 * Description: Getter for the fileText
-	 * Parameters: none
-	 * Precondition: n/a
-	 * Postcondition: return the fileText
-	 * Throws: n/a
-	 **/
-	public static String getFileText() {
-		return fileText;
-	}
-
-	public static void setFileText(String fileText) {
-		CodeFile.fileText = fileText;
-	}
-
-	@Override
-	public String toString() {
-		return "CodeFile [getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
-				+ "]";
-	}
-	
-	
-	
 }
 
 

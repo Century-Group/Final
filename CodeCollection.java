@@ -4,65 +4,69 @@ import java.util.ArrayList;
 
 public class CodeCollection {
 
-	private static ArrayList<CodeFile> files;
-	private static String fileName;
-
-	public CodeCollection(String name) {
+	private ArrayList<CodeFile> files;
+	
+	public CodeCollection() {
 		files = new ArrayList<CodeFile>();
-		fileName = name;
 	}
 	
-	
-	public static ArrayList<CodeFile> getFiles() {
+	public ArrayList<CodeFile> getFiles() {
 		return files;
 	}
 
-
-	public static void setFiles(ArrayList<CodeFile> files) {
-		CodeCollection.files = files;
+	public void setFiles(ArrayList<CodeFile> files) {
+		this.files = files;
 	}
 
-
-	public static void addFile(CodeFile codeFile) {
-		//use equals method to see if equal to existing files in arrayList
-		files.add(codeFile);
+	public void addFile(CodeFile codeFile) {
+		boolean fileCheck = hasFile(codeFile);
+		if (fileCheck == true) {
+			System.out.println("FAILURE: File already exists");
+		} else {
+			files.add(codeFile);
+			System.out.println("SUCCESS: File added");
+		}
 	}
 	
-	public static void removeFile(CodeFile codeFile) {
-		//check if exists
+	//remove if not used
+	public void removeFile(CodeFile codeFile) {
+		//check if file exists, give message if doesn't, give message if successful 
 		files.remove(codeFile);
 	}
 	
-	//work on
-	public static String serachFiles(String keyword) {
-		return keyword;
+	public void removeFile(String fileName) {
+		boolean exists = false;
+		for (int i=0; i < files.size(); i++) {
+			if (files.get(i).getFileName().equals(fileName)) {  //problem
+				files.remove(i);   
+				System.out.println("SUCCESS: File: " + fileName + " has been removed.");
+				exists = true;
+			} 
+		} 
+		if (!exists)
+			System.out.println("FAILURE: File: " + fileName + " does not exist");
+	}
+		
+	public boolean hasFile(CodeFile file) {
+		boolean exists = false;
+		for (int i=0; i < files.size(); i++) {
+			if (files.get(i).getWholeFile().equals(file.getWholeFile())) {
+				exists = true;
+			}
+		}
+		return exists;
 	}
 
-
-
-	/**
-	 * Description: Getter for the fileName
-	 * Parameters: none
-	 * Precondition: n/a
-	 * Postcondition: return the fileName
-	 * Throws: n/a
-	 **/
-	public static String getFileName() {
-		return fileName;
+	/*
+	public static boolean checkEquals(String codeFile1, String codeFile2) {
+		boolean check = codeFile1.equals(codeFile2);
+		if (check) {
+			return true;
+		} else {
+			return false;
+		}
 	}
-
-	public static void setFileName(String fileName) {
-		CodeCollection.fileName = fileName;
-	}
-	
-	@Override
-	public String toString() {
-		return "CodeCollection [getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
-	}
-	
-	
-	
+	*/
 	
 }
 
