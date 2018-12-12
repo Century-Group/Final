@@ -1,4 +1,5 @@
 package edu.century.finalProject;
+//Gabriel Blott
 
 import java.awt.Desktop;
 import java.io.File;
@@ -9,28 +10,40 @@ import java.io.FileWriter;
 
 public class CodeFile {
 
+	//Instance Variables
 	private static Scanner x;
 	private String wholeFile = "";
 	private String fileName;
 
+	//Constructor 
 	public CodeFile() {
 	}
 	
-	public static void fileNotepad(String fileLocationName) throws IOException{
-		if (Desktop.isDesktopSupported()) {
-		    File file = new File(fileLocationName);
-			Desktop.getDesktop().edit(file);
-		} else {
-		    System.out.println("FAILURE: Please enter valid file path and name");
-		}
+	/**
+	 * Description: Override toString 
+	 * Parameters: none
+	 * Precondition: n/a
+	 * Postcondition: return the fileName
+	 * Throws: n/a
+	 **/
+	@Override
+	public String toString() {
+		return fileName;
 	}
-	
+
+	/**
+	 * Description: Export a file from the collection to local computer
+	 * Parameters: String fileText, String locationName
+	 * Precondition: n/a
+	 * Postcondition: Export file
+	 * Throws: IOException
+	 **/
 	public static void exportFile(String fileText, String locationName) throws IOException{
-		String fileLocationName = locationName;
-		FileWriter fwriter = new FileWriter(fileLocationName, true);
+		FileWriter fwriter = new FileWriter(locationName, true);
 		PrintWriter outputfile = new PrintWriter(fwriter);
 		outputfile.print(fileText);
 		outputfile.close();
+		System.out.println("File successfully exported");
 	}
 	
 	/**
@@ -46,29 +59,33 @@ public class CodeFile {
 
 	/**
 	 * Description: Open the file
-	 * Parameters: String filename
+	 * Parameters: String location, String fileName
 	 * Precondition: file exists
 	 * Postcondition: open file
 	 * Throws: FileNotFoundException
 	 **/
-	public String openFile(String fileName) {
+	public boolean openFile(String location, String fileName) {
+		String locationFileName = location + fileName;
 		Scanner scanner = null;
 		String fileText = "";
+		boolean exists = false;
 		try {
-			scanner = new Scanner(new File(fileName));
+			scanner = new Scanner(new File(locationFileName));
 			fileText = setWholeFile(scanner);
+			exists = true;
 		} catch (Exception FileNotFoundException) {
-			System.out.println("FAILURE: File does not exist " + fileName);
+			System.out.println("FAILURE: File does not exist " + locationFileName);
 		}
 		wholeFile = fileText; 
-		return fileText;
+		this.fileName = fileName;
+		return exists;
 	}
 
 	/**
-	 * Description: Display the file 
-	 * Parameters: none
-	 * Precondition: file is available 
-	 * Postcondition: return file line by line
+	 * Description: Setter for wholeFile field variable
+	 * Parameters: Scanner scanner
+	 * Precondition: none
+	 * Postcondition: return entire file
 	 * Throws: IOException
 	 **/
 	public String setWholeFile(Scanner scanner) throws IOException{
@@ -97,26 +114,6 @@ public class CodeFile {
 	}
 	
 	/**
-	 * Description: Check if file is empty	
-	 * Parameters: String fileName
-	 * Precondition: n/a
-	 * Postcondition: return if empty
-	 * Throws: n/a
-	 **/
-	//Borrowed from: https://stackoverflow.com/questions/31800816/how-to-check-if-file-content-is-empty
-	public static void checkEmpty(String fileName) {
-		File file = new File(fileName);
-		if (file.isFile()) {
-			long size = file.length();
-			if (size != 0) {
-			}
-			else {
-				System.out.println("FAILURE: This file is empty " + fileName);
-			}
-		}
-	}
-
-	/**
 	 * Description: Getter for the fileName
 	 * Parameters: none
 	 * Precondition: n/a
@@ -127,16 +124,14 @@ public class CodeFile {
 		return fileName;
 	}
 
+	/**
+	 * Description: Setter for fileName
+	 * Parameters: String fileName
+	 * Precondition: n/a
+	 * Postcondition: set fileName
+	 * Throws: n/a
+	 **/
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
 }
-
-
-/**
- * Description: 
- * Parameters: 
- * Precondition: 
- * Postcondition: 
- * Throws: 
- **/
