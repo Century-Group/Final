@@ -99,7 +99,8 @@ public class Comment {
 		//check User access level: Admin or standard User: waiting on User class at the moment
 		if (safeText.scanMessage(text) == false) {
 			System.out.println("\"" + text + "\"" + " contains inappropriate words and is not accepted.");
-		}else {
+		}
+		if (safeText.scanMessage(text) == true) {
 			setText(text);
 		}
 	}
@@ -118,53 +119,6 @@ public class Comment {
 	}
 
 
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Arrays.hashCode(commentElements);
-		result = prime * result + (isReply ? 1231 : 1237);
-		result = prime * result + ((safeText == null) ? 0 : safeText.hashCode());
-		result = prime * result + ((text == null) ? 0 : text.hashCode());
-		result = prime * result + uniqueID;
-		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
-		return result;
-	}
-
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Comment other = (Comment) obj;
-		if (!Arrays.equals(commentElements, other.commentElements))
-			return false;
-		if (isReply != other.isReply)
-			return false;
-		if (safeText == null) {
-			if (other.safeText != null)
-				return false;
-		} else if (!safeText.equals(other.safeText))
-			return false;
-		if (text == null) {
-			if (other.text != null)
-				return false;
-		} else if (!text.equals(other.text))
-			return false;
-		if (uniqueID != other.uniqueID)
-			return false;
-		if (userName == null) {
-			if (other.userName != null)
-				return false;
-		} else if (!userName.equals(other.userName))
-			return false;
-		return true;
-	}
 
 	public String toString() {
 		StringBuilder strBuilder = new StringBuilder();

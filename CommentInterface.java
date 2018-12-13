@@ -54,12 +54,12 @@ public class CommentInterface {
 			case 3:
 				System.out.println("Enter the comment ID number of the comment you would like to change \n" 
 						+ "as well as the new text you would like to replace the old message with.");
-				System.out.println("Please press the \"Enter\" key after entering you desired ID number and \n" 
+				System.out.println("Please press the \"Enter\" key after entering the desired ID number and \n" 
 						+ "before entering your new text body.");
 				int ID2 = input.nextInt();
 				input.nextLine();
 				String text2 = input.nextLine();
-				comments.modifyText(ID2, text2);
+				comments.changeText(ID2, text2);
 				break;
 
 				//case for viewing all comments
@@ -92,8 +92,8 @@ public class CommentInterface {
 
 	public static void main(String[] args) {
 		CommentInterface menu = new CommentInterface();
-		LanguageScanner parent = new LanguageScanner();
-		CommentSection chat = new CommentSection();
+		//LanguageScanner parent = new LanguageScanner();
+		//CommentSection chat = new CommentSection();
 		
 		menu.commentMenu();
 	}

@@ -20,9 +20,9 @@ public class LanguageScanner {
 		String[] commentText = text.split(" ");
 		String cleanString = "";
 		//iterate 
-		for (String word: commentText) {
+		for (String bannedWord: badWords) {
 			//iterate the whole string instead of using split to compare arrays
-			for (String bannedWord: badWords) {
+			for (String word: commentText) {
 				if (word.equals(bannedWord)) {
 					word = word.replaceAll("[a-zA-Z]", "*");
 				}
@@ -49,30 +49,7 @@ public class LanguageScanner {
 		    return true;
 		}
 	}
-	
-	
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Arrays.hashCode(badWords);
-		return result;
-	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		LanguageScanner other = (LanguageScanner) obj;
-		if (!Arrays.equals(badWords, other.badWords))
-			return false;
-		return true;
-	}
 
 	public static void main(String[] args) {
 		LanguageScanner pc = new LanguageScanner();
