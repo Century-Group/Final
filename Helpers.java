@@ -10,6 +10,7 @@ public class Helpers {
 	CodeCollection collectionJava = new CodeCollection();
 	CodeCollection collectionPython = new CodeCollection();
 	CodeCollection collectionPowerShell = new CodeCollection();
+	CommentInterface comment = new CommentInterface();
 
 	//Constructor 
 	public Helpers() {
@@ -32,7 +33,7 @@ public class Helpers {
 			System.out.println("Enter 2 to: Remove a file");
 			System.out.println("Enter 3 to: Export a file");
 			System.out.println("Enter 4 to: Display a file");
-			System.out.println("Enter 5 to: List all files by collection");
+			System.out.println("Enter 5 to: List all files and comments by collection");
 			System.out.println("Enter 6 to: Go to Comments");
 			System.out.println("Enter 7 to: Exit the program ");
 			try {
@@ -72,7 +73,7 @@ public class Helpers {
 							codeFileJava.closeFile();
 						}
 						break;
-					case 2: //copy 1
+					case 2: 
 						System.out.println("Enter the location (e.g. /bin/)");
 						String advance12 = input.nextLine();
 						String fileLocation12 = input.nextLine();
@@ -80,11 +81,13 @@ public class Helpers {
 						String fileName12 = input.nextLine();
 						String fileNameLocation12 = fileLocation12 + fileName12;
 						CodeFile codeFilePython = new CodeFile();  
-						codeFilePython.openFile(fileLocation12, fileName12);
-						collectionPython.addFile(codeFilePython);
-						codeFilePython.closeFile();
+						boolean exists2 = codeFilePython.openFile(fileLocation12, fileName12);
+						if (exists2) {
+							collectionPython.addFile(codeFilePython);
+							codeFilePython.closeFile();
+						}
 						break;
-					case 3: //copy 1
+					case 3: 
 						System.out.println("Enter the location (e.g. /bin/)");
 						String advance13 = input.nextLine();
 						String fileLocation13 = input.nextLine();
@@ -92,9 +95,11 @@ public class Helpers {
 						String fileName13 = input.nextLine();
 						String fileNameLocation13 = fileLocation13 + fileName13;
 						CodeFile codeFilePowerShell = new CodeFile();  
-						codeFilePowerShell.openFile(fileLocation13, fileName13);
-						collectionPowerShell.addFile(codeFilePowerShell);
-						codeFilePowerShell.closeFile();
+						boolean exists3 = codeFilePowerShell.openFile(fileLocation13, fileName13);
+						if (exists3) {
+							collectionPowerShell.addFile(codeFilePowerShell);
+							codeFilePowerShell.closeFile();
+						}
 						break;
 					case 4:
 						break;
@@ -233,19 +238,28 @@ public class Helpers {
 						System.out.println("Enter the file name");
 						String advance51 = input.nextLine();
 						String fileName51 = input.nextLine();
-						System.out.println(collectionJava.displayFile(fileName51));
+						if (collectionJava.displayFile(fileName51) != null)
+							System.out.println(collectionJava.displayFile(fileName51));
+						else
+							System.out.println("FAILURE " + fileName51 + " does not exist");
 						break;
 					case 2: 
 						System.out.println("Enter the file name");
 						String advance52 = input.nextLine();
 						String fileName52 = input.nextLine();
-						System.out.println(collectionPython.displayFile(fileName52));
+						if (collectionPython.displayFile(fileName52) != null)
+							System.out.println(collectionPython.displayFile(fileName52));
+						else
+							System.out.println("FAILURE " + fileName52 + " does not exist");
 						break;
 					case 3: 
 						System.out.println("Enter the file name");
 						String advance53 = input.nextLine();
 						String fileName53 = input.nextLine();
-						System.out.println(collectionPowerShell.displayFile(fileName53));
+						if (collectionPowerShell.displayFile(fileName53) != null)
+							System.out.println(collectionPowerShell.displayFile(fileName53));
+						else
+							System.out.println("FAILURE " + fileName53 + " does not exist");
 						break;
 					case 4:
 						break;
@@ -268,8 +282,93 @@ public class Helpers {
 				collectionPowerShell.listCollection();
 				break;
 			case 6:
-				//Connection to Comment Interface 
+				choice = 1;
+				while (choice <=3 && choice > 0) {
+					input = new Scanner(System.in);
+					System.out.println();
+					System.out.println("Enter 1 to: Comment a file from Java Collection");
+					System.out.println("Enter 2 to: Comment a file from Python Collection");
+					System.out.println("Enter 3 to: Comment a file from PowerShell Collection");
+					System.out.println("Enter 4 to: Return to Main Menu");
+					try {
+						choice = input.nextInt();
+					}
+					catch(Exception e) {
+						choice = 0;
+					}								
+					switch(choice) {
+					case 1: 
+						System.out.println("Enter the file name");
+						String advance61 = input.nextLine();
+						String fileName61 = input.nextLine();
+						
+						CodeFile cf = collectionJava.getFile(fileName61);
+						if (cf == null)
+							System.out.println(fileName61 + " does not exist");
+						else {
+							CommentSection cs = comment.commentMenu(cf.getComments());
+							cf.setComments(cs);
+							collectionJava.removeFile(fileName61, false);
+							collectionJava.addFile(cf, false);
+						}
+						break;
+					case 2: 
+						System.out.println("Enter the file name");
+						String advance62 = input.nextLine();
+						String fileName62 = input.nextLine();
+						
+						CodeFile cf2 = collectionPython.getFile(fileName62);
+						if (cf2 == null)
+							System.out.println(fileName62 + " does not exist");
+						else {
+							CommentSection cs = comment.commentMenu(cf2.getComments());
+							cf2.setComments(cs);
+							collectionPython.removeFile(fileName62, false);
+							collectionPython.addFile(cf2, false);
+						}
+						break;
+					case 3: 
+						System.out.println("Enter the file name");
+						String advance63 = input.nextLine();
+						String fileName63 = input.nextLine();
+						
+						CodeFile cf3 = collectionPowerShell.getFile(fileName63);
+						if (cf3 == null)
+							System.out.println(fileName63 + " does not exist");
+						else {
+							CommentSection cs = comment.commentMenu(cf3.getComments());
+							cf3.setComments(cs);
+							collectionPowerShell.removeFile(fileName63, false);
+							collectionPowerShell.addFile(cf3, false);
+						}
+						break;
+					case 4:
+						break;
+					default:
+						System.out.println("Enter a valid option (e.g. 1-4)");
+						System.out.println();
+						choice = 1;
+						break;
+					}
+				}
 				break;
+				
+				/*
+				System.out.println("Enter the file name");
+				String advance6 = input.nextLine();
+				String fileName6 = input.nextLine();
+				
+				CodeFile cf = collectionJava.getFile(fileName6);
+				if (cf == null)
+					System.out.println(fileName6 + " does not exist");
+				else {
+					CommentSection cs = comment.commentMenu(cf.getComments());
+					cf.setComments(cs);
+					collectionJava.removeFile(fileName6, false);
+					collectionJava.addFile(cf, false);
+				}
+				break;
+				*/
 			case 7: 
 				break;
 			default:

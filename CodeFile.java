@@ -1,7 +1,6 @@
 package edu.century.finalProject;
 //Gabriel Blott
 
-import java.awt.Desktop;
 import java.io.File;
 import java.util.Scanner;
 import java.io.IOException;
@@ -14,6 +13,8 @@ public class CodeFile {
 	private static Scanner x;
 	private String wholeFile = "";
 	private String fileName;
+	private CommentSection comments;
+
 
 	//Constructor 
 	public CodeFile() {
@@ -30,7 +31,7 @@ public class CodeFile {
 	public String toString() {
 		return fileName;
 	}
-
+	
 	/**
 	 * Description: Export a file from the collection to local computer
 	 * Parameters: String fileText, String locationName
@@ -46,17 +47,6 @@ public class CodeFile {
 		System.out.println("File successfully exported");
 	}
 	
-	/**
-	 * Description: Getter for wholeFile field variable
-	 * Parameters: none
-	 * Precondition: n/a
-	 * Postcondition: return the wholeFile
-	 * Throws: n/a
-	 **/
-	public String getWholeFile() {
-		return wholeFile;
-	}
-
 	/**
 	 * Description: Open the file
 	 * Parameters: String location, String fileName
@@ -80,6 +70,20 @@ public class CodeFile {
 		this.fileName = fileName;
 		return exists;
 	}
+	
+	/**
+	 * Description: Close file
+	 * Parameters: none
+	 * Precondition: verify file exists
+	 * Postcondition: close file
+	 * Throws: NullPointerException
+	 **/
+	public static void closeFile() {
+		try {
+			x.close();
+		} catch (Exception NullPointerException) {
+		}	
+	}
 
 	/**
 	 * Description: Setter for wholeFile field variable
@@ -100,17 +104,14 @@ public class CodeFile {
 	}
 	
 	/**
-	 * Description: Close file
+	 * Description: Getter for wholeFile field variable
 	 * Parameters: none
-	 * Precondition: verify file exists
-	 * Postcondition: close file
-	 * Throws: NullPointerException
+	 * Precondition: n/a
+	 * Postcondition: return the wholeFile
+	 * Throws: n/a
 	 **/
-	public static void closeFile() {
-		try {
-			x.close();
-		} catch (Exception NullPointerException) {
-		}	
+	public String getWholeFile() {
+		return wholeFile;
 	}
 	
 	/**
@@ -134,4 +135,27 @@ public class CodeFile {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
+	
+	/**
+	 * Description: Getter for comments field variable
+	 * Parameters: none
+	 * Precondition: n/a
+	 * Postcondition: return comments
+	 * Throws: n/a
+	 **/
+	public CommentSection getComments() {
+		return comments;
+	}
+
+	/**
+	 * Description: Setter for comments field variable
+	 * Parameters: CommentSection comments
+	 * Precondition: n/a
+	 * Postcondition: set comments
+	 * Throws: n/a
+	 **/
+	public void setComments(CommentSection comments) {
+		this.comments = comments;
+	}
+	
 }

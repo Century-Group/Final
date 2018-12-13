@@ -23,6 +23,9 @@ public class CodeCollection {
 	public void listCollection() {
 		for (int i = 0; i < files.size(); i++) {
 			System.out.println(files.get(i));
+			System.out.println();
+			if (files.get(i).getComments() != null)
+				System.out.println(files.get(i).getComments());
 		}
 	}
 	
@@ -43,6 +46,23 @@ public class CodeCollection {
 		return fileContents;
 	}
 	
+	/*
+	 * Description: Display contents of a file.
+	 * Parameters: String fileName
+	 * Precondition: n/a
+	 * Postcondition: return a string of the file contents or null of nothing.
+	 * Throws: 
+	 **/
+	public CodeFile getFile(String fileName) {
+		CodeFile file = null;
+		for (int i = 0; i < files.size(); i++) {
+			if (files.get(i).getFileName().equals(fileName)) {
+				file = files.get(i);
+			}
+		}
+		return file;
+	}
+		
 	/**
 	 * Description: Getter for ArrayList<CodeFile> field variable
 	 * Parameters: none
@@ -73,12 +93,24 @@ public class CodeCollection {
 	 * Throws: n/a
 	 **/
 	public void addFile(CodeFile codeFile) {
+		addFile(codeFile, true);
+	}
+	
+	/**
+	 * Description: Add a file to the CodeFile object
+	 * Parameters: CodeFile codeFile, boolean print
+	 * Precondition: verify file doesn't exist already (hasFile())
+	 * Postcondition: Add the file and give message
+	 * Throws: n/a
+	 **/
+	public void addFile(CodeFile codeFile, boolean print) {
 		boolean fileCheck = hasFile(codeFile);
-		if (fileCheck == true) {
+		if (fileCheck == true && print) {
 			System.out.println("FAILURE: File already exists");
 		} else {
 			files.add(codeFile);
-			System.out.println("SUCCESS: File added");
+			if (print)
+				System.out.println("SUCCESS: File added");
 		}
 	}
 	
@@ -90,15 +122,27 @@ public class CodeCollection {
 	 * Throws: n/a
 	 **/
 	public void removeFile(String fileName) {
+		removeFile(fileName, true);
+	}
+	
+	/**
+	 * Description: Remove a file 
+	 * Parameters: String fileName, boolean print
+	 * Precondition: Verify file exists
+	 * Postcondition: Remove file, or give message it didn't exist
+	 * Throws: n/a
+	 **/
+	public void removeFile(String fileName, boolean print) {
 		boolean exists = false;
 		for (int i=0; i < files.size(); i++) {
 			if (files.get(i).getFileName().equals(fileName)) {  
-				files.remove(i);   
-				System.out.println("SUCCESS: File: " + fileName + " has been removed.");
+				files.remove(i);  
+				if (print)
+					System.out.println("SUCCESS: File: " + fileName + " has been removed.");
 				exists = true;
 			} 
 		} 
-		if (!exists)
+		if (!exists && print)
 			System.out.println("FAILURE: File: " + fileName + " does not exist");
 	}
 	
