@@ -32,8 +32,8 @@ public class Helpers {
 			System.out.println("Enter 1 to: Upload new file");
 			System.out.println("Enter 2 to: Remove a file");
 			System.out.println("Enter 3 to: Export a file");
-			System.out.println("Enter 4 to: Display a file");
-			System.out.println("Enter 5 to: List all files and comments by collection");
+			System.out.println("Enter 4 to: Display file's code");
+			System.out.println("Enter 5 to: List all files and comments");
 			System.out.println("Enter 6 to: Go to Comments");
 			System.out.println("Enter 7 to: Exit the program ");
 			try {
@@ -352,23 +352,6 @@ public class Helpers {
 					}
 				}
 				break;
-				
-				/*
-				System.out.println("Enter the file name");
-				String advance6 = input.nextLine();
-				String fileName6 = input.nextLine();
-				
-				CodeFile cf = collectionJava.getFile(fileName6);
-				if (cf == null)
-					System.out.println(fileName6 + " does not exist");
-				else {
-					CommentSection cs = comment.commentMenu(cf.getComments());
-					cf.setComments(cs);
-					collectionJava.removeFile(fileName6, false);
-					collectionJava.addFile(cf, false);
-				}
-				break;
-				*/
 			case 7: 
 				break;
 			default:

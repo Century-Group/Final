@@ -1,4 +1,4 @@
-package century.edu.class_project;
+package edu.century.finalProject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +15,8 @@ public class CommentSection {
 	 * Simply creates two ArrayLists for adding Comments to.
 	 */
 	public CommentSection() {
-		chat =  new ArrayList<>();
-		userNames = new ArrayList<>();
+		chat =  new ArrayList<>(10);
+		userNames = new ArrayList<>(10);
 	}
 
 	/*
@@ -69,13 +69,14 @@ public class CommentSection {
 	 * Throws: 
 	 */
 	public void delete(int ID) {
+		//was using (int i = chat.size() - 1; i >= 0; i--) to iterate from the back of the list to the front
 		for (int i = 0; i < chat.size(); i++) {
 			if (ID == chat.get(i).getID()) {
 				chat.remove(i);
 				userNames.remove(i);
 			}
-			/*remove null spaces in the List after remove takes place. ArrayList may have this by default
-			chat.removeIf(Objects::isNull);
+			//remove null spaces in the List after remove takes place. ArrayList may have this by default
+			/*chat.removeIf(Objects::isNull);
 			userNames.removeIf(Objects::isNull);
 			*/
 		}
@@ -88,12 +89,11 @@ public class CommentSection {
 	 * PostCondition: Prints out all of the posts made by that specific user.
 	 * Throws: 
 	 */
-	public void changeText(int ID, String text) {
+	public void modifyText(int ID, String text) {
 		//check User access level: Admin or standard User: waiting on User class at the moment
 		for (int i = 0; i < chat.size(); i++) {
-			if (ID == chat.get(i).getID()) {
+			if (ID == chat.get(i).getID()) 
 				chat.get(i).modifyText(text);
-			}
 		}
 	}
 	/*
@@ -103,25 +103,51 @@ public class CommentSection {
 	 * Throws: 
 	 */
 	public void search(String userName) {
-		int test = 0;
 		//search for posts by userName
 		for (Comment comment: chat) {
 			if (comment.getUserName().equals(userName)) {
 				//display all posts made by the user
 				System.out.println(comment.toString());
-				System.out.println("\n");
-				System.out.println("---------------------------------------" 
-						+ "---------------------------------------");
-				System.out.println("\n");
-				test += 1;
 			}
-
-		}
-		if (test == 0) {
-			System.out.println("Username \"" + userName + "\" doesn't exist.");
+			else {
+				System.out.println("Username \"" + userName + "\" doesn't exist.");
+			}
 		}
 	}
 
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((chat == null) ? 0 : chat.hashCode());
+		result = prime * result + ((userNames == null) ? 0 : userNames.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CommentSection other = (CommentSection) obj;
+		if (chat == null) {
+			if (other.chat != null)
+				return false;
+		} else if (!chat.equals(other.chat))
+			return false;
+		if (userNames == null) {
+			if (other.userNames != null)
+				return false;
+		} else if (!userNames.equals(other.userNames))
+			return false;
+		return true;
+	}
 
 
 	public String toString() {
@@ -130,8 +156,7 @@ public class CommentSection {
 		for (Comment comment: chat) {
 			strBuilder.append(comment.toString());
 			strBuilder.append("\n");
-			strBuilder.append("---------------------------------------------" 
-			+ "---------------------------------");
+			strBuilder.append("------------------------------------------------------------------------------");
 			strBuilder.append("\n");
 		}
 		output = strBuilder.toString();

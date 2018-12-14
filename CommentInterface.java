@@ -1,18 +1,26 @@
-package century.edu.class_project;
+package edu.century.finalProject;
 
 import java.util.Scanner;
 
 public class CommentInterface {
 
 	CommentSection comments = new CommentSection();
+	LanguageScanner parent = new LanguageScanner();
+	CommentSection chat = new CommentSection();
 
 	public CommentInterface() {
 
 	}
 
-	public void commentMenu() {
+	public CommentSection commentMenu(CommentSection cs) {
 		int choice = 0;
 
+		this.comments = cs;
+		
+		if (cs == null) {
+			comments = new CommentSection();
+		}
+		
 
 		while (choice <= 5 && choice >= 0 ) {
 			Scanner input = new Scanner(System.in);
@@ -54,12 +62,12 @@ public class CommentInterface {
 			case 3:
 				System.out.println("Enter the comment ID number of the comment you would like to change \n" 
 						+ "as well as the new text you would like to replace the old message with.");
-				System.out.println("Please press the \"Enter\" key after entering the desired ID number and \n" 
+				System.out.println("Please press the \"Enter\" key after entering you desired ID number and \n" 
 						+ "before entering your new text body.");
 				int ID2 = input.nextInt();
 				input.nextLine();
 				String text2 = input.nextLine();
-				comments.changeText(ID2, text2);
+				comments.modifyText(ID2, text2);
 				break;
 
 				//case for viewing all comments
@@ -78,7 +86,7 @@ public class CommentInterface {
 				//case for exiting the menu
 			case 6:
 				break;
-
+		
 				//default case
 			default:
 				System.out.println("Enter a valid option (1-6) please");
@@ -87,14 +95,7 @@ public class CommentInterface {
 				break;
 			}
 		}
-		//System.out.println("Goodbye!"); do we need this?
+		return comments;
 	}
 
-	public static void main(String[] args) {
-		CommentInterface menu = new CommentInterface();
-		//LanguageScanner parent = new LanguageScanner();
-		//CommentSection chat = new CommentSection();
-		
-		menu.commentMenu();
-	}
 }

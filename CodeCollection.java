@@ -47,7 +47,7 @@ public class CodeCollection {
 	}
 	
 	/*
-	 * Description: Display contents of a file.
+	 * Description: Get contents of a file.
 	 * Parameters: String fileName
 	 * Precondition: n/a
 	 * Postcondition: return a string of the file contents or null of nothing.
